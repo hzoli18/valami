@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <p>
+               DHCP
+
+                ip ad
+                ip add
+                conf t
+                
+                ip dhcp ex 194.41.10.1 194.41.10.100
+                ip dhcp pool Users
+                net 194.41.10.0 255.255.255.0
+                def 194.41.10.1
+                dns 70.0.0.10
+                domain isp.hu
+                exit
+                do wr
+        </p>
+
+        <p>
+            VLAN
+            SW
+
+            vlan 10                      vtp mode server    
+            name Iroda                   vtp domain ceg.hu
+            vlan 20                      vtp password VTPtitok
+            name Informatika
+            vlan 30                      int g0/2
+            name Wifi                    sw mode trunk
+            vlan 40                      
+            name NemHasznalt
+            exit
+
+          
+            int rang                   ip add 192.168.20.3 255.255.255.0 
+            int r f0/1-10              no sh
+            sw m a                     exit
+            sw a v 10                  ip default-gateway 192.168.20.1
+            int r f0/11-20             ena sec .....
+            sw m a                     line con 0 4
+            sw a v 20
+            int r f0/21-23             line vty 0 4
+            sw m a                     pass ......
+            sw a v 30                  login
+            sw a v 20                  exit
+            sw a v 40
+            int f0/24                   
+            sw m a
+            sw a v 30
+            exit
+            do w
+            int vlan 20
+            int g0/1
+            sw m a
+            sw a v 40
+            shut
+
+        </p>
+            
+        </div>
+        <div class="content">
+            <p>
+                VTP CLIENT
+
+                vtp mo                      ip add 192.168.20.2 255.255.255.0
+                vtp mode cli                no sh
+                vtp mode client             ip default-gateway 192.168.20.1
+                vtp domain ceg.hu
+                vtp pass VTPtitok           ena sec ......
+                do wr                       line vty 0 5
+                                            pass .....
+                do sh vlan                  login
+                
+                int r f0/1-10
+                sw ma 
+                sw m a
+                sw a v 10
+                int r f0/11-20
+                sw m a
+                sw a v 20
+                int r f0/21-23
+                sw m a
+                sw a v 400
+                int g0!1  
+                int g0/1
+                sw m a
+                sw a v 30
+                exit
+                int vlan 20
+            </p>
+
+            <p>
+                CEG	
+
+                ena                                          ip dhcp pool Wifi
+                conf t                                       net 192.168.30.0 255.255.255.0
+                h Ceg                                        def 192.168.30.1
+                int g0/0                                     dns 70.0.0.10
+                no sh
+
+                int g0/0.10                                  int g0/1
+                en                                           ip add 193.41.10.2 255.255.255.252
+                encapsulation d                              no shut
+                encapsulation dot1Q 10
+                ip add 192.168.10.1 255.255.255.0            ip route 0.0.0.0 0.0.0.0 193.41.10.1
+                int g0/0.20
+                en
+                encapsulation d                             ip access-list 1 per
+                encapsulation dot1Q 20                      access-list 1 permit 192.168.10.0 0.0.0.255
+                ip add 192.168.20.1 255.255.255.0           access-list 1 permit 192.168.20.0 0.0.0.255
+                int g0/0.30                                 access-list 1 permit 192.168.30.0 0.0.0.255
+                encapsulation dot1Q 30
+                ip add 192.168.30.1 255.255.255.0
+
+                ip nat in
+                ip nat inside s
+                ip nat inside source l
+
+
+                ip nat inside source li
+                ip nat inside source list 1 int
+                ip nat inside source list 1 interface g0/1 over
+
+                in g0/1
+                ip nat out
+                in g0/0.10
+                ip nat ins
+                in g0/0.20
+                ip nat ins
+                in g0/0.30
+                ip nat ins
+                exit
+
+            </p>
+          
+
+            <p>
+                SSH
+
+                user ...... pri jogosultság (15) sec jelszó
+                i domain-name ....
+                crypto gene rsa general-keys modolus 1024
+                line vty 0 4
+                login local
+                tra
+                transport in
+                transport input ssh
+                exit
+                do wr
+
+
+            </p>
+
+
+
+        </div>
+        
+    </div>
+</div>
+    </div>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
