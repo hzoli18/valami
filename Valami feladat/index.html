@@ -160,8 +160,62 @@
 
 
             </p>
+            
+            
+  ___          
+            
+            <p>
+                DHCP:	ssh -l felhasználónév IP
+	conf t
+	ip dhcp ex IP
+	ip dhcp pool készlet
+	net IP Mask
+	def IP.1
+	dns IP
+	domain név.hu
+	exit
 
+VTP:	vtp server/client
+	vtp password jelszó
+	vtp domain
 
+VLan:	vlan 10
+	name valami
+
+VLan.10:
+
+Router 
+	int g0/0.10
+	 encapsulation dot1Q 10
+	 ip add IP.1 Mask
+
+SW
+	 int (range) g0/0(-5)
+	 switchport mode access
+	 switchport access vlan10
+
+Trunk:	int g0/0
+	switchport mode trunk
+
+SSH:	user név pri jogosultság(15) sec jelszó
+	ip domain-name név.hu
+	crypto key gene rsa general-keys modulus 1024	?
+	line vty 0 4					?
+	login local
+	trans input ssh
+
+NAT:	ip nat in/out sou li 1 int g0/0 over
+	int g0/0
+	ip nat in/out
+	intg0/0.10
+	ip nat in/out
+	
+ACL:	acces-list 1 permit IP.0 0.0.0.255
+
+ip route 0.0.0.0 0.0.0.0 IP.1
+            </p>
+
+__
 
             <p>
                 max_product = self.products[0]
